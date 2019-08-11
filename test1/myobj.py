@@ -1,0 +1,15 @@
+from RegularPolygon import RegularPolygon
+def main():
+    # obj1 = RegularPolygon()
+    # obj1.setN = RegularPolygon.default_obj()
+    # print(obj1.default_obj().getPerimeter())
+    # print(obj1.default_obj().getArea())
+    print('--------')
+    obj2 = RegularPolygon(6, 4)
+    print(obj2.getPerimeter())
+    print(obj2.getArea())
+    print('--------')
+    obj3 = RegularPolygon(10, 4, 5.6, 7.8)
+    print(obj3.getPerimeter())
+    print(obj3.getArea())
+main()
