@@ -10,7 +10,7 @@ mydict = pd.DataFrame(dataframe)
 points = mydict.to_numpy()
 
 
-# 定义函数，实现计算线性模型y=wx+b的loss均方误差平均值
+# 定义函数，计算线性模型y=wx+b的loss均方误差平均值
 def myloss(points, w, b):
     losserror = 0
     for i in range(len(points)):
