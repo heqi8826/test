@@ -7,9 +7,8 @@ import pandas as pd
 url = './data.csv'
 dataframe = pd.read_csv(url).drop(columns=['Unnamed: 0', 'Unnamed: 3', 'Unnamed: 4', 'Unnamed: 5', 'Unnamed: 6'])
 mydict = pd.DataFrame(dataframe)
-mypoints = mydict.to_numpy()
-points = np.genfromtxt('data.csv', delimiter=',')
-print(np.array(points))
+points = mydict.to_numpy()
+
 
 # 定义函数，实现计算线性模型y=wx+b的loss均方误差平均值
 def myloss(points, w, b):
