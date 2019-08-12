@@ -10,7 +10,7 @@ print(points.shape[0])
 def myloss(points, w, b):
     loss_sum = 0
 
-    for i in range(points.shape[0]):
+    for i in range(len(points[:, 0])):
         x = points[i][0]
         y = points[i][1]
         loss_sum += (w * x + b - y) ** 2
@@ -59,7 +59,7 @@ def myrunner():
     [w, b] = best_w_b(points, initial_w, initial_b, num, lr)
     print("After {0} iterations  w = {2}, b = {1}, error = {3}".
           format(num, w, b,
-                 myloss(b, w, points))
+                 myloss(points, w, b))
           )
 
 
