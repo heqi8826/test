@@ -3,17 +3,18 @@ import numpy as np
 # 导入数据集
 points = np.genfromtxt('data.csv', delimiter=',')
 print(len(points[:, 0]))
+print(points.shape[0])
 
 
 # 计算loss损失
 def myloss(points, w, b):
     loss_sum = 0
 
-    for i in range(len(points[:, 0])):
+    for i in range(points.shape[0]):
         x = points[i][0]
         y = points[i][1]
         loss_sum += (w * x + b - y) ** 2
-        return loss_sum / len(points[:, 0])
+    return loss_sum / points.shape[0]
 
 
 # 计算 w b
@@ -21,7 +22,7 @@ def mygradient(points, w_current, b_current, lr):
     w_gradient = 0
     b_gradient = 0
     N = len(points[:, 0])
-    for i in range(len(points[:, 0])):
+    for i in range(points.shape[0]):
         # print(len(points[:, 0])) 测试打印长度临时使用
         x = points[i, 0]
         y = points[i, 1]
