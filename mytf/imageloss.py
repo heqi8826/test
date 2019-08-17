@@ -23,19 +23,17 @@ model.add(layers.Dense(10))#降低纬度为10列目标结果
 
 # 优化函数
 optimizer = optimizers.SGD(learning_rate=0.001)
-optimizer = optimizers.SGD(learning_rate=0.001)
-# 配置模型
-# model.compile(optimizer, loss='mean_squared_error', metrics=['accuracy'])
 
 
 def train_epoch(epoch):
-    for step, (x_train, y_train) in enumerate(db):
+    for step, (x, y) in enumerate(db):
         with tf.GradientTape() as tape:
-            x_train = tf.reshape(x_train, (-1, 28*28))
-#            计算out
-            out = model(x_train)
-#            计算loss
-            loss = tf.reduce_sum((out-y_train)**2)/len(x_train)
+
+            x = tf.reshape(x_train, (-1, 28*28))  # 多维度转化为单纬度
+
+            out = model(x)  # 计算out
+
+            loss = tf.reduce_sum((out-y)**2)/len(x)  # 计算loss
         # 优化 更新w、b
         grads = tape.gradient(loss, model.trainable_variables)
         # w = w-lr*loss
