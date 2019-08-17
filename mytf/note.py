@@ -1,61 +1,24 @@
-import numpy as np
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import datasets, layers, optimizers
 
+# 下载数据集
+(x_train, y_train), (x_test, y_test) = datasets.mnist.load_data()
+# 将numpy数据转换为tensor数据
+x_train = tf.convert_to_tensor(x_train, dtype=tf.float32)/255
+# 将转化的x_train的tensor数据与y_train 重新生成新的数据
+db = tf.data.Dataset.from_tensor_slices((x_train, y_train))
+for step, (x, y) in enumerate(db):
+    print(step, x.shape, y, y.shape)
 
-# y = wx + b
-def compute_error_for_line_given_points(b, w, points):
-    totalError = 0
-    for i in range(0, len(points)):
-        x = points[i, 0]
-        y = points[i, 1]
-        # computer mean-squared-error
-        totalError += (y - (w * x + b)) ** 2
-    # average loss for each point
-    return totalError / float(len(points))
+# 以上为训练数据准备，以下构建模型model
+model = keras.Sequential()
+model.add(layers.Dense(input_shape=(28, 28)))
+model.add(layers.Dense(512, activation='relu'))
+model.add(layers.Dense(256, activation='relu'))
+model.add(layers.Dense(10))
 
-
-def step_gradient(b_current, w_current, points, learningRate):
-    b_gradient = 0
-    w_gradient = 0
-    N = float(len(points))
-    for i in range(0, len(points)):
-        x = points[i, 0]
-        y = points[i, 1]
-        # grad_b = 2(wx+b-y)
-        b_gradient += (2 / N) * ((w_current * x + b_current) - y)
-        # grad_w = 2(wx+b-y)*x
-        w_gradient += (2 / N) * x * ((w_current * x + b_current) - y)
-    # update w'
-    new_b = b_current - (learningRate * b_gradient)
-    new_w = w_current - (learningRate * w_gradient)
-    return [new_b, new_w]
-
-
-def gradient_descent_runner(points, starting_b, starting_w, learning_rate, num_iterations):
-    b = starting_b
-    w = starting_w
-    # update for several times
-    for i in range(num_iterations):
-        b, w = step_gradient(b, w, np.array(points), learning_rate)
-    return [b, w]
-
-
-def run():
-    points = np.genfromtxt("data.csv", delimiter=",")
-    learning_rate = 0.0001
-    initial_b = 0  # initial y-intercept guess
-    initial_w = 0  # initial slope guess
-    num_iterations = 1000
-    print("Starting gradient descent at b = {0}, w = {1}, error = {2}"
-          .format(initial_b, initial_w,
-                  compute_error_for_line_given_points(initial_b, initial_w, points))
-          )
-    print("Running...")
-    [b, w] = gradient_descent_runner(points, initial_b, initial_w, learning_rate, num_iterations)
-    print("After {0} iterations b = {1}, w = {2}, error = {3}".
-          format(num_iterations, b, w,
-                 compute_error_for_line_given_points(b, w, points))
-          )
-
-
-if __name__ == '__main__':
-    run()
+# 优化函数
+optimizer = optimizers.SGD(learning_rate=0.01)
+# 配置模型
+model.compile(optimizer, loss='mean_squared_error', metrics=['accuracy'])
