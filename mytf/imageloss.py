@@ -19,9 +19,9 @@ db = db.batch(200)
 model = keras.Sequential()
 model.add(layers.Dense(512, activation='relu'))#降低纬度为512列
 model.add(layers.Dense(256, activation='relu'))#降低纬度为256列
-model.add(layers.Dense(10))#降低纬度为10列目标结果
+model.add(layers.Dense(10, activation='relu'))#降低纬度为10列目标结果
 
-# 优化函数
+# 优化
 optimizer = optimizers.SGD(learning_rate=0.001)
 
 
