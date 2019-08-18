@@ -84,12 +84,6 @@ my_one_hot = tf.range(4)
 my_one_hot = tf.one_hot(my_one_hot, depth=10)
 loss = tf.keras.losses.mse(my_one_hot, pre)
 my_reduce_loss = tf.reduce_mean(loss)
-print(loss)
-print(my_reduce_loss)
+print('loss:', loss)
+print('my_reduce_loss:', my_reduce_loss)
 
-# Vector
-net = tf.keras.layers.Dense(10)
-net.built((4, 8))
-
-print(net.kernel)
-print(net.bias)
