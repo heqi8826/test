@@ -73,3 +73,12 @@ b = tf.random.normal([6, 3])
 bb = tf.broadcast_to(b, [4, 6, 3])
 abb = tf.matmul(a, bb)
 print('abb的形状是：', abb.shape)
+
+# 验证 y = x@W + b
+x = tf.ones([4, 2])
+w = tf.ones([2, 1])
+c = tf.constant(0.1)  # 自动broadcast为一个[4, 1]的tensor数据与x*w相加
+print(x@w + c)
+out = x@w + c
+out = tf.nn.relu(out)
+print(out)
