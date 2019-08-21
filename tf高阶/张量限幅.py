@@ -26,4 +26,4 @@ a = tf.clip_by_norm(a, 15)
 print(a)
 print(tf.norm(a))
 
-# gradient clipping
+
