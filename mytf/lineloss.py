@@ -17,7 +17,7 @@ def myloss(points, w, b):
     return loss_sum / points.shape[0]
 
 
-# 计算 w b
+# 计算 w b 梯度 也就是变化率 求导的过程
 def mygradient(points, w_current, b_current, lr):
     w_gradient = 0
     b_gradient = 0
@@ -26,9 +26,9 @@ def mygradient(points, w_current, b_current, lr):
         # print(len(points[:, 0])) 测试打印长度临时使用
         x = points[i, 0]
         y = points[i, 1]
-        # grad_w = 2(wx+b-y)*x
+        # grad_w = 2(wx+b-y)*x  # grad_w 也就是函数f(w)对w求导的函数 f(w)为loss_sum :(w * x + b - y) ** 2
         w_gradient += (2/N) * x * ((w_current * x + b_current) - y)
-        # grad_b = 2(wx+b-y)
+        # grad_b = 2(wx+b-y)  求导 变化率 
         b_gradient += (2/N) * ((w_current * x + b_current) - y)
     new_w = w_current - lr * w_gradient
     new_b = b_current - lr * b_gradient

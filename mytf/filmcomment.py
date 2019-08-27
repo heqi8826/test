@@ -29,10 +29,13 @@ word_index["<UNUSED>"] = 3
 
 reverse_word_index = dict([(value, key) for (key, value) in word_index.items()])
 
+
 def decode_review(text):
     return ' '.join([reverse_word_index.get(i, '?') for i in text])
 # print(decode_review(train_words[0]))
 # 准备数据，使得测试和训练数据的矩阵长度标准化
+
+
 train_words = keras.preprocessing.sequence.pad_sequences(train_words,
                                                          value=word_index['<PAD>'],
                                                          padding='post',

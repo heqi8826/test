@@ -1,4 +1,4 @@
-import  os
+import os
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import datasets, layers, optimizers
@@ -17,9 +17,9 @@ db = db.batch(200)
 
 # 以上为训练数据准备，以下构建模型model
 model = keras.Sequential()
-model.add(layers.Dense(512, activation='relu'))#降低纬度为512列
-model.add(layers.Dense(256, activation='relu'))#降低纬度为256列
-model.add(layers.Dense(10, activation='relu'))#降低纬度为10列目标结果
+model.add(layers.Dense(512, activation='relu'))  # 降低纬度为512列
+model.add(layers.Dense(256, activation='relu'))  # 降低纬度为256列
+model.add(layers.Dense(10, activation='relu'))  # 降低纬度为10列目标结果
 
 # 优化
 optimizer = optimizers.SGD(learning_rate=0.001)
@@ -34,9 +34,9 @@ def train_epoch(epoch):
             out = model(x)  # 计算out
 
             loss = tf.reduce_sum((out-y)**2)/len(x)  # 计算loss
-        # 优化 更新w、b
+        # 求变化率 即 梯度变化
         grads = tape.gradient(loss, model.trainable_variables)
-        # w = w-lr*loss
+        # w = w-lr*loss 更新w 和 b
         optimizer.apply_gradients(zip(grads, model.trainable_variables))
         if step % 100 == 0:
             print(epoch, step, 'loss:', loss.numpy())

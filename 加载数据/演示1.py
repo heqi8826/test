@@ -7,7 +7,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # x: [60k, 28, 28], [10, 28, 28]
 # y: [60k], [10k]
-(x, y), (x_test, y_test) = datasets.mnist.load_data()
+(x, y), (x_test, y_test) = keras.datasets.mnist.load_data()
 # x: [0~255] => [0~1.]
 x = tf.convert_to_tensor(x, dtype=tf.float32) / 255.
 y = tf.convert_to_tensor(y, dtype=tf.int32)
