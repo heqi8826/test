@@ -7,8 +7,8 @@ import re
 def main():
     myurl = input('采集目标网址为，必须输入http(s)://协议：')
     data = request.urlopen(myurl).read().decode('utf-8')
-    mytitle = re.findall('<title>(.+?)</title>', data)
-    print(mytitle)
+    mycontent = re.findall('<content>(.+?)</content>', data)
+    print(mycontent)
 main()
 
 '''

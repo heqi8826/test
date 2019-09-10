@@ -12,4 +12,10 @@ def mnist_dataset():
     y = tf.one_hot(y, depth=10)
     y_val = tf.one_hot(y_val, depth=10)
 
-    
+    ds = tf.data.Dataset.from_tensor_slices((x, y))
+    ds = ds.map(prepare_features_and_labels)
+    ds = ds.shuffle(60000).batch(100)
+    ds_val = tf.data.Dataset.from_tensor_slices((x_val, y_val))
+    ds_val = ds.map(prepare_features_and_labels)
+    ds_val = ds.shuffle(10000).batch(100)
+    return ds, ds_val

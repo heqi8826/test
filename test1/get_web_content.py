@@ -1,6 +1,11 @@
-import tensorflow as tf
-from tensorflow import keras
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+from urllib import request
+from bs4 import BeautifulSoup
+
+
+def main():
+    myurl = input('输入要采集的网页网址，必须输入http(s)协议：')
+    data = request.urlopen(myurl)
+    print(BeautifulSoup(data, 'html.parser').content)
+
+
+main()

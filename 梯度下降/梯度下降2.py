@@ -28,5 +28,8 @@ with tf.GradientTape() as tape:
 
 # 梯度变化率
 grad = tape.gradient(loss, [w, b])
-print(grad[0])
+print(grad)
+# grad[0] 和 grad[1]分别指什么 尝试计算 看下结果区别
+# 64视频 函数求导过程 2个例子 笔算
+
 
