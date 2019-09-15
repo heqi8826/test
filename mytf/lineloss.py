@@ -1,71 +1,57 @@
 import numpy as np
 
-# 导入数据集
-points = np.genfromtxt('data.csv', delimiter=',')
-print(len(points[:, 0]))
-print(points.shape[0])
+
+points = np.genfromtxt('./data.csv', dtype=np.float32, delimiter=',')
+# print(points, points[0, 0], points[0, 1], len(points))
 
 
-# 计算loss损失
-def myloss(points, w, b):
-    loss_sum = 0
-
-    for i in range(len(points[:, 0])):
-        x = points[i][0]
-        y = points[i][1]
-        loss_sum += (w * x + b - y) ** 2
-    return loss_sum / points.shape[0]
-
-
-# 计算 w b 梯度 也就是变化率 求导的过程
-def mygradient(points, w_current, b_current, lr):
-    w_gradient = 0
-    b_gradient = 0
-    N = len(points[:, 0])
-    for i in range(points.shape[0]):
-        # print(len(points[:, 0])) 测试打印长度临时使用
+# y = wx+b
+def loss(w, b, points):
+    loss = 0
+    for i in range(len(points)):
+        range(len(points))
         x = points[i, 0]
         y = points[i, 1]
-        # grad_w = 2(wx+b-y)*x  # grad_w 也就是函数f(w)对w求导的函数 f(w)为loss_sum :(w * x + b - y) ** 2
-        w_gradient += (2/N) * x * ((w_current * x + b_current) - y)
-        # grad_b = 2(wx+b-y)  求导 变化率 
-        b_gradient += (2/N) * ((w_current * x + b_current) - y)
-    new_w = w_current - lr * w_gradient
-    new_b = b_current - lr * b_gradient
-    return [new_w, new_b]
+        loss_current = (w * x + b - y)**2
+        loss += loss_current
+    return loss
 
 
-# 最佳w 和 b 预测
-def best_w_b(points, w_start, b_start, num, lr):
-    w = w_start
-    b = b_start
-    # 迭代数次 得出最佳w b
-    for i in range(int(num)):
-        [w, b] = mygradient(points, w, b, lr)
-        return [w, b]
+def get_gradient_w_b(w_current, b_current, points, lr):
+    # 初始化w_gradient 和 b_gradient
+    w_gradient = 0
+    b_gradient = 0
+    for i in range(len(points)):
+        x = points[i, 0]
+        y = points[i, 1]
+
+        # 计算loss对w的导数 和 loss 对b的导数。
+        w_gradient += 2/len(points) * (w_current * x + b_current - y) * x
+        b_gradient += 2/len(points) * (w_current * x + b_current - y)
+    # 计算最优导数w b ，什么叫最优，所有points点上的导数与初始的w b的变化率
+    w = w_current - lr * w_gradient
+    b = b_current - lr * b_gradient
+    return w, b
 
 
-# 运行函数runner
-def myrunner():
+def times_get_w_b(w, b, points, lr, times):
+    w_current = 0
+    b_current = 0
+    for i in range(times):
+        w, b = get_gradient_w_b(w_current, b_current, points, lr)
+    return w, b
+
+
+def main(points):
     lr = 0.0001
-    initial_b = 0  # initial y-intercept guess
-    initial_w = 0  # initial slope guess
-    num = 1000
-    print("Starting gradient descent at b = {0}, w = {1}, error = {2}"
-          .format(initial_b, initial_w,
-                  myloss(points, initial_w, initial_b))
-          )
-    print("Running...")
-    [w, b] = best_w_b(points, initial_w, initial_b, num, lr)
-    print("After {0} iterations  w = {2}, b = {1}, error = {3}".
-          format(num, w, b,
-                 myloss(points, w, b))
-          )
+    w = 0
+    b = 0
+    times = 1000
+    for i in range(len(points)):
+        loss_result = loss(w, b, points)
+        w_new, b_new = times_get_w_b(w, b, points, lr, times)
+        print('计算的第{0}次的损失值loss等于{1},参数w={2},b={3}'.format(i, loss_result, w_new, b_new))
 
 
-myrunner()
-
-
-
-
-
+if __name__ == '__main__':
+    main(points)
